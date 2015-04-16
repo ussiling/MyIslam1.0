@@ -26,7 +26,7 @@ import java.util.Locale;
 
 import se.she1kh.myislam10.extra.TabsPagerAdapter;
 
-
+//Usman
 public class MainActivity extends ActionBarActivity {
 
     SharedPreferences prefs;
