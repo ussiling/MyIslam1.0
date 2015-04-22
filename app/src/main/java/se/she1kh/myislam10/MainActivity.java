@@ -35,25 +35,26 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         //Initiates viewpager
         ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
         pager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
 
         prefs  = getSharedPreferences("STATUS",Context.MODE_PRIVATE);
 
-        String testname = prefs.getString("isCityAvailable", "-1");
-        removeableToast(testname);
-        if (testname.equals("-1")) {
+        String cityName = prefs.getString("isCityAvailable", "-1");
+        removeableToast(cityName);
+        if (cityName.equals("-1")) {
             //Step One - checking if LocationSetting is on
             checkLocationSetting();
         }else{
             startLocationService(false);
-            removeableToast("Gillar du " +testname);
+            removeableToast("Gillar du " +cityName);
+
+//            setPrayerTimes();
         }
-
-
-
     }
+
 
 
     /**
@@ -163,7 +164,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-
     //___________________________________________________________________________
     //Alternativ Step four - Tries to find the city name and convert it to a cordinates.
     private List<Address> processInput(String city) {
@@ -181,8 +181,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return addresses;
-
-
 
     }
 //
@@ -244,7 +242,7 @@ public class MainActivity extends ActionBarActivity {
 
             if (city!=null){
                 Toast.makeText(getApplicationContext(), city, Toast.LENGTH_LONG).show();
-                prefs.edit().putString("isCityAvailable",city).commit();
+                prefs.edit().putString("isCityAvailable",city).apply();
             }
 
 //            if (result.equals("START")) {
