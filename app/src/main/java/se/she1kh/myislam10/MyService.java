@@ -126,7 +126,6 @@ public class MyService  extends Service implements LocationListener {
         Log.d("HOSSI","HOSSI " + t);
 
             return millis - time < twohours;
-
     }
 
 
