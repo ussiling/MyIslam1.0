@@ -12,6 +12,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 import se.she1kh.myislam10.R;
+import se.she1kh.myislam10.extra.ListViewAdapter;
+import se.she1kh.myislam10.extra.PrayerItem;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -57,8 +59,20 @@ public class Prayerfragment extends Fragment {
         prayerName.add("Maghrib");
         prayerName.add("Isha");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1 ,prayerName );
-        listView.setAdapter(adapter);
+//        PrayerItem prayerItem = new PrayerItem();
+
+        ArrayList<PrayerItem> items = new ArrayList<PrayerItem>();
+
+
+
+
+
+        ListViewAdapter customAdapter = new ListViewAdapter(getActivity(), items);
+        listView.setAdapter(customAdapter);
+
+//        ListViewAdapter adapter = new ListViewAdapter(getActivity(),,null);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1 ,prayerName );
+//        listView.setAdapter(adapter);
     }
 
     public static Prayerfragment newInstance(String text) {
