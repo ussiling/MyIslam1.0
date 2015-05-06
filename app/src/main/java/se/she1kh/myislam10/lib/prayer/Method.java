@@ -1,6 +1,5 @@
 package se.she1kh.myislam10.lib.prayer;
 
-import org.arabeyes.itl.prayer.PrayerTimeCalc.InternalTimeType;
 import se.she1kh.myislam10.lib.prayer.astro.Utils;
 
 public class Method {
@@ -404,18 +403,18 @@ public class Method {
 	 nearestLat =  Utils.DEF_NEAREST_LATITUDE , extreme = 5, offset = 0, offList = null
 	 */
 	
-	public double getOffset(InternalTimeType prayer) {
-		if (prayer == InternalTimeType.FAJR)
+	public double getOffset(PrayerTimeCalc.InternalTimeType prayer) {
+		if (prayer == PrayerTimeCalc.InternalTimeType.FAJR)
 			return getFajrOffset();
-		if (prayer == InternalTimeType.SUNRISE)
+		if (prayer == PrayerTimeCalc.InternalTimeType.SUNRISE)
 			return getShurooqOffset();
-		if (prayer == InternalTimeType.ZUHR)
+		if (prayer == PrayerTimeCalc.InternalTimeType.ZUHR)
 			return getThuhrOffset();
-		if (prayer == InternalTimeType.ASR)
+		if (prayer == PrayerTimeCalc.InternalTimeType.ASR)
 			return getAssrOffset();
-		if (prayer == InternalTimeType.MAGHRIB)
+		if (prayer == PrayerTimeCalc.InternalTimeType.MAGHRIB)
 			return getMaghribOffset();
-		if (prayer == InternalTimeType.ISHA)
+		if (prayer == PrayerTimeCalc.InternalTimeType.ISHA)
 			return getIshaaOffset();
 		return 0;
 	}

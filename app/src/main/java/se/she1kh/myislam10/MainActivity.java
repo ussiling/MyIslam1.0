@@ -21,10 +21,16 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import se.she1kh.myislam10.extra.TabsPagerAdapter;
+import se.she1kh.myislam10.lib.prayer.Method;
+import se.she1kh.myislam10.lib.prayer.PrayerTime;
+import se.she1kh.myislam10.lib.prayer.PrayerTimeCalc;
+import se.she1kh.myislam10.lib.prayer.PrayerTimes;
+import se.she1kh.myislam10.lib.prayer.astro.Location;
 
 //Usman
 public class MainActivity extends ActionBarActivity {
@@ -272,4 +278,19 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

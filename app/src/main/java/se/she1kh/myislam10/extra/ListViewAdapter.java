@@ -57,7 +57,7 @@ public class ListViewAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.textView1.setText(items.get(position).getNameOfPrayer());
-        holder.textView2.setText(items.get(position).getTimeOfPrayer());
+        holder.textView2.setText(items.get(position).getTimeOfPrayer().toString());
         return convertView;
     }
 }

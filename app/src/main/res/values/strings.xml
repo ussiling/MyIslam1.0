@@ -25,13 +25,15 @@
         <item>Isha</item>
     </string-array>
 
+    <string name="fajr">Fajr</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="zuhr">Zuhr</string>
+    <string name="asr">Asr</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="isha">Isha</string>
 
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="timetopray">It´s time to pray</string>
-
-
-
-
 
 </resources>
