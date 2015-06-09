@@ -3,18 +3,21 @@ package se.she1kh.myislam10.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import se.she1kh.myislam10.MainActivity;
+import se.she1kh.myislam10.MyService;
 import se.she1kh.myislam10.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BlankFragment extends Fragment {
-
+    public final String TAG = "HOSSI BlankFragment ";
 
     public BlankFragment() {
         // Required empty public constructor
@@ -30,16 +33,19 @@ public class BlankFragment extends Fragment {
         TextView tv = (TextView) view.findViewById(R.id.fragment_txt);
         tv.setText(getArguments().getString("msg"));
 
+
+        ((MainActivity)getActivity()).isMyServiceRunning(MyService.class);
+
+        Log.i(TAG, "ANSWER IS = "+ ((MainActivity)getActivity()).isMyServiceRunning(MyService.class));
         return view;
     }
 
-    public static BlankFragment newInstance(String text) {
+    public static BlankFragment newInstance(int num) {
 
         BlankFragment f = new BlankFragment();
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-
-        f.setArguments(b);
+        Bundle args = new Bundle();
+        args.putInt("num", num);
+        f.setArguments(args);
 
         return f;
     }

@@ -27,7 +27,7 @@ public class MyService  extends Service implements LocationListener {
 
     private Location location;
     private double latitude, longitude;
-
+    private static final String TAG= "HOSSI MyService ";
 
     private Activity activity;
 
@@ -37,9 +37,16 @@ public class MyService  extends Service implements LocationListener {
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.i(TAG,"HOSSI onBind ");
+
         return null;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.i(TAG, "HOSSI onCreate");
+    }
 
     public Location getLocation() {
         Log.e("TRACKER", "Service 2");
@@ -53,8 +60,8 @@ public class MyService  extends Service implements LocationListener {
             boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-            int MIN_TIME_BW_UPDATES = 1000;                  //in milliseconds
-            int MIN_DISTANCE_CHANGE_FOR_UPDATES = 1000;      //in meter
+            int MIN_TIME_BW_UPDATES = 1000*60*60;                  //in milliseconds , every hour
+            int MIN_DISTANCE_CHANGE_FOR_UPDATES = 1000;      //in meter , one km
 
                 // First get location from Network Provider
             if (isNetworkEnabled) {
@@ -185,7 +192,6 @@ public class MyService  extends Service implements LocationListener {
 
         }
 
-
     }
 
 
@@ -201,5 +207,10 @@ public class MyService  extends Service implements LocationListener {
         Log.i("HOSSI", "HOSSI SEND message: ");
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+        Log.i(TAG,"HOSSI onDestroy ");
+    }
 }

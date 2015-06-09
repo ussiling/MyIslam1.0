@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+//import se.she1kh.myislam10.PrayerItem;
 import se.she1kh.myislam10.R;
 
 /**
@@ -21,29 +22,34 @@ import se.she1kh.myislam10.R;
 public class ListViewAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    private ArrayList<PrayerItem> items;
+    private ArrayList<String> pname;
+    private ArrayList<String> ptime;
 
     private class ViewHolder {
         TextView textView1;
         TextView textView2;
     }
 
-    public ListViewAdapter(Context context, ArrayList<PrayerItem> objects) {
+    public ListViewAdapter(Context context, ArrayList pname, ArrayList ptime) {
         inflater = LayoutInflater.from(context);
-        this.items = objects;
+        this.pname = pname;
+        this.ptime = ptime;
     }
 
     public int getCount() {
-        return items.size();
+        return pname.size();
     }
 
-    public PrayerItem getItem(int position) {
-        return items.get(position);
-    }
-
-    public long getItemId(int position) {
+    @Override
+    public Object getItem(int position) {
         return position;
     }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -56,8 +62,8 @@ public class ListViewAdapter extends BaseAdapter {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.textView1.setText(items.get(position).getNameOfPrayer());
-        holder.textView2.setText(items.get(position).getTimeOfPrayer().toString());
+        holder.textView1.setText(pname.get(position));
+        holder.textView2.setText(ptime.get(position));
         return convertView;
     }
 }

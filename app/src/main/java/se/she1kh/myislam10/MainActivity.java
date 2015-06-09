@@ -1,6 +1,8 @@
 package se.she1kh.myislam10;
 
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,53 +16,48 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import se.she1kh.myislam10.extra.TabsPagerAdapter;
-import se.she1kh.myislam10.lib.prayer.Method;
-import se.she1kh.myislam10.lib.prayer.PrayerTime;
-import se.she1kh.myislam10.lib.prayer.PrayerTimeCalc;
-import se.she1kh.myislam10.lib.prayer.PrayerTimes;
-import se.she1kh.myislam10.lib.prayer.astro.Location;
 
 //Usman
 public class MainActivity extends ActionBarActivity {
 
     SharedPreferences prefs;
+    ProgressDialog progress;
+    final String TAG = "HOSSI MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Initiates viewpager
-        ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
-        pager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
-
-        prefs  = getSharedPreferences("STATUS",Context.MODE_PRIVATE);
+        prefs = getSharedPreferences("STATUS", Context.MODE_PRIVATE);
 
         String cityName = prefs.getString("isCityAvailable", "-1");
         removeableToast(cityName);
-        if (cityName.equals("-1")) {
+
+        if (cityName!= null && cityName.equals("-1")) {
             //Step One - checking if LocationSetting is on
             checkLocationSetting();
-        }else{
-            startLocationService(false);
-            removeableToast("Gillar du " +cityName);
 
-//            setPrayerTimes();
+        } else {
+            startLocationService(false);
+            removeableToast("Gillar du " + cityName);
+
+            //Initiates viewpager
+            ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+            pager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
+
         }
     }
-
 
 
     /**
@@ -82,11 +79,13 @@ public class MainActivity extends ActionBarActivity {
             openLocationSettings();
         } else {
             //LocationSetting is ON - Step three
-            Log.e("TRACKER","ACTIVITY 1");
+            Log.e(TAG, "ACTIVITY 1");
 
             startLocationService(true);
 
             removeableToast("LOCATION IS ON");
+
+
         }
 
 
@@ -147,15 +146,21 @@ public class MainActivity extends ActionBarActivity {
 
     /**
      * Step three - start the service that gets the current location of the device
+     *
      * @param startgetLocation - getLocation again or just start the onLocationChange
      */
     public void startLocationService(boolean startgetLocation) {
         Intent intent = new Intent(this, MyService.class);
         startService(intent);
-        MyService serv = new MyService(this);
+
 
         if (startgetLocation) {
-            Log.i("ACITIVTY", "LOCATION " + serv.getLocation());
+            MyService serv = new MyService(this);
+            Log.i(TAG, "LOCATION " + serv.getLocation());
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setTitle("Loading");
+            progress.setMessage("Wait while loading...");
+            progress.show();
         }
     }
 
@@ -179,7 +184,7 @@ public class MainActivity extends ActionBarActivity {
             addresses = gcd.getFromLocationName(city, 10);
             if (addresses.size() > 0) {
                 for (int i = 0; i < addresses.size(); i++) {
-                    Log.i("HOSSI", "HOSSI " + addresses.get(i).getLocality() + " lat " + addresses.get(i).getLatitude() + " long " + addresses.get(i).getLongitude());
+                    Log.i(TAG, "HOSSI " + addresses.get(i).getLocality() + " lat " + addresses.get(i).getLatitude() + " long " + addresses.get(i).getLongitude());
                 }
             }
         } catch (IOException e) {
@@ -189,6 +194,61 @@ public class MainActivity extends ActionBarActivity {
         return addresses;
 
     }
+
+
+//    public Location getLocation() {
+////        new LongOperation().execute("");
+//        return null;
+//    }
+//
+//    private class LongOperation extends AsyncTask<String, Void, String> {
+//        ProgressDialog progress;
+//
+//        @Override
+//        protected String doInBackground(String... params) {
+//
+//            String cityName = prefs.getString("isCityAvailable", "-1");
+//            removeableToast(cityName);
+//            if (cityName.equals("-1")) {
+//                //Step One - checking if LocationSetting is on
+//                checkLocationSetting();
+//            } else {
+//                startLocationService(false);
+//                removeableToast("Gillar du " + cityName);
+//
+////            setPrayerTimes();
+//            }
+//
+//            return cityName;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(String result) {
+////            TextView txt = (TextView) findViewById(R.id.output);
+////            txt.setText("Executed"); // txt.setText(result);
+//            // might want to change "executed" for the returned string passed
+//            // into onPostExecute() but that is upto you
+//            Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
+//            // To dismiss the dialog
+//            progress.dismiss();
+//
+//        }
+//
+//        @Override
+//        protected void onPreExecute() {
+//            Log.i(TAG,"HOSSI onPreExecute");
+//            progress = new ProgressDialog(MainActivity.this);
+//            progress.setTitle("Loading");
+//            progress.setMessage("Wait while loading...");
+//            progress.show();
+//
+//        }
+//
+//        @Override
+//        protected void onProgressUpdate(Void... values) {
+//        }
+//    }
+
 //
 
     private void removeableToast(String msg) {
@@ -233,7 +293,7 @@ public class MainActivity extends ActionBarActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e("TRACKER","ACTIVITY 2");
+            Log.e(TAG, "ACTIVITY 2");
 
             // Extract data included in the Intent
 //            String message = intent.getStringExtra("MSG");
@@ -244,11 +304,14 @@ public class MainActivity extends ActionBarActivity {
             String result = intent.getStringExtra("ONLOCATIONCHANGED");
             String city = intent.getStringExtra("CITYNAME");
 
-            Log.e("TRACKER","ACTIVITY 3 "+ result + city);
+            Log.e(TAG, "ACTIVITY 3 " + result + city);
 
-            if (city!=null){
+            if (city != null) {
                 Toast.makeText(getApplicationContext(), city, Toast.LENGTH_LONG).show();
-                prefs.edit().putString("isCityAvailable",city).apply();
+                prefs.edit().putString("isCityAvailable", city).apply();
+
+                ViewPager pager = (ViewPager) findViewById(R.id.viewPager);
+                pager.setAdapter(new TabsPagerAdapter(getSupportFragmentManager()));
             }
 
 //            if (result.equals("START")) {
@@ -256,14 +319,14 @@ public class MainActivity extends ActionBarActivity {
 //            } else {
             if (result != null) {
 
-                    Log.e("TRACKER","ACTIVITY 4");
+                Log.e(TAG, "ACTIVITY 4");
 
-                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
-
-
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
 
 
             }
+
+            progress.dismiss();
         }
 //        }
     };
@@ -273,12 +336,19 @@ public class MainActivity extends ActionBarActivity {
     protected void onPause() {
         // Unregister since the activity is not visible
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReceiver);
+
         super.onPause();
     }
 
-
-
-
+    public boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

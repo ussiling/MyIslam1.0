@@ -26,13 +26,12 @@ public class Swipefragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_swipefragment, container, false);
     }
-    public static Swipefragment newInstance(String text) {
+    public static Swipefragment newInstance(int num) {
 
         Swipefragment f = new Swipefragment();
-        Bundle b = new Bundle();
-        b.putString("msg", text);
-
-        f.setArguments(b);
+        Bundle args = new Bundle();
+        args.putInt("num", num);
+        f.setArguments(args);
 
         return f;
     }

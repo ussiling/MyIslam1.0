@@ -22,12 +22,12 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int pos) {
         switch(pos) {
 
-            case 0: return Prayerfragment.newInstance("FirstFragment, Instance 1");
-            case 1: return BlankFragment.newInstance("SecondFragment, Instance 1");
-            case 2: return Swipefragment.newInstance("ThirdFragment, Instance 1");
-            case 3: return Prayerfragment.newInstance("ThirdFragment, Instance 2");
-            case 4: return Swipefragment.newInstance("ThirdFragment, Instance 3");
-            default: return Prayerfragment.newInstance("ThirdFragment, Default");
+            case 0: return Prayerfragment.newInstance(pos);
+            case 1: return BlankFragment.newInstance(pos);
+            case 2: return Swipefragment.newInstance(pos);
+            case 3: return Prayerfragment.newInstance(pos);
+            case 4: return Swipefragment.newInstance(pos);
+            default: return Prayerfragment.newInstance(pos);
 
         }
     }
